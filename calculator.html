@@ -1,0 +1,192 @@
+```html id="k9v3mx"
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Biru</title>
+
+  <style>
+    /* Background */
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #dbeafe;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Kotak kalkulator */
+    .calculator {
+      background: #1e40af;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    /* Display */
+    #display {
+      width: 100%;
+      height: 60px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #eff6ff;
+      color: #1e3a8a;
+      font-size: 28px;
+      font-weight: bold;
+      text-align: right;
+      padding-right: 10px;
+    }
+
+    /* Grid tombol */
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 70px);
+      gap: 10px;
+    }
+
+    /* Semua tombol */
+    button {
+      height: 60px;
+      border: none;
+      border-radius: 12px;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #3b82f6;
+      color: white;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #25eb7e;
+    }
+
+    /* Tombol operator */
+    .operator {
+      background: #0cda84;
+    }
+
+    /* Tombol clear */
+    .clear {
+      background: #0adb8b;
+    }
+
+    /* Tombol hasil */
+    .equal {
+      background: #10b981;
+    }
+
+    /* Tombol 0 lebih panjang */
+    .zero {
+      grid-column: span 2;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="calculator">
+
+    <!-- Display -->
+    <input type="text" id="display" value="0" disabled>
+
+    <!-- Tombol -->
+    <div class="buttons">
+
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button class="operator" onclick="appendValue('/')">÷</button>
+      <button class="operator" onclick="appendValue('*')">×</button>
+      <button class="operator" onclick="deleteLast()">⌫</button>
+
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button class="operator" onclick="appendValue('-')">-</button>
+
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button class="operator" onclick="appendValue('+')">+</button>
+
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button class="equal" onclick="calculate()">=</button>
+
+      <button class="zero" onclick="appendValue('0')">0</button>
+      <button onclick="appendValue('.')">.</button>
+
+    </div>
+  </div>
+
+  <script>
+
+    const display = document.getElementById("display");
+
+    // Menampilkan angka dan operator
+    function appendValue(value) {
+
+      // Jika display masih 0
+      if (display.value === "0") {
+        display.value = "";
+      }
+
+      const lastChar = display.value.slice(-1);
+      const operators = ['+', '-', '*', '/'];
+
+      // Mencegah operator dobel
+      if (operators.includes(lastChar) && operators.includes(value)) {
+        return;
+      }
+
+      display.value += value;
+    }
+
+    // Tombol clear
+    function clearDisplay() {
+      display.value = "0";
+    }
+
+    // Tombol hapus
+    function deleteLast() {
+
+      display.value = display.value.slice(0, -1);
+
+      if (display.value === "") {
+        display.value = "0";
+      }
+    }
+
+    // Hitung hasil
+    function calculate() {
+
+      try {
+
+        // Support koma dan titik
+        let expression = display.value.replace(/,/g, '.');
+
+        let result = eval(expression);
+
+        // Validasi hasil
+        if (isNaN(result) || result === undefined) {
+          display.value = "0";
+        } else {
+          display.value = result;
+        }
+
+      } catch (error) {
+
+        // Jika error reset ke 0
+        display.value = "0";
+      }
+    }
+
+  </script>
+
+</body>
+</html>
+```
